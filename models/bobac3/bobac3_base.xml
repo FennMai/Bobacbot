@@ -1,0 +1,135 @@
+<?xml version="1.0" ?>
+<mujoco model="bobac3_base">
+  <compiler angle="radian" meshdir="meshes/"/>
+
+  <option integrator="implicitfast"/>
+
+  <default>
+    <default class="visual">
+      <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+    </default>
+    <default class="collision">
+      <geom type="mesh" group="3"/>
+    </default>
+  </default>
+
+  <asset>
+    <material name="black" rgba="0.11372549 0.11372549 0.10196078 1"/>
+    <material name="gray" rgba="0.62745098 0.65098039 0.64705882 1"/>
+    <material name="dark_gray" rgba="0.35294118 0.37647059 0.37254902 1"/>
+    <material name="blue" rgba="0 0 0.7 1"/>
+    
+    <!-- 基本部件 -->
+    <mesh file="base_link.stl"/>
+    <mesh file="cover_link.stl"/>
+    <mesh file="smoke_link.stl"/>
+    <mesh file="humtmper_link.stl"/>
+    <mesh file="left_ultrasound_link.stl"/>
+    <mesh file="right_ultrasound_link.stl"/>
+    <mesh file="bottom_camera_link.stl"/>
+    <mesh file="base_berxel_camera_link.stl"/>
+    <mesh file="front_lidar_link.stl"/>
+    <mesh file="rear_lidar_link.stl"/>
+  </asset>
+
+  <worldbody>
+    <body name="base_link">
+      <!-- 设置总质量和惯性矩 -->
+      <inertial pos="0 0 0.035" mass="60" diaginertia="1.0 1.0 1.0"/>
+      
+      <!-- 添加x、y、yaw三个自由度 -->
+      <joint name="joint_x" type="slide" axis="1 0 0"/>
+      <joint name="joint_y" type="slide" axis="0 1 0"/>
+      <joint name="joint_th" type="hinge" axis="0 0 1"/>
+      
+      <!-- 主体及其视觉和碰撞几何形状 -->
+      <geom class="visual" mesh="base_link" material="gray"/>
+      <geom class="collision" mesh="base_link"/>
+      
+      <!-- 底座深度相机 -->
+      <body name="base_depth_link" pos="0.176804 0 0.149">
+        <inertial pos="-0.00447 -0.00037 -0.00049" mass="0.01" diaginertia="1.88e-05 5.06e-06 1.64e-05"/>
+        <geom class="visual" mesh="base_berxel_camera_link" material="black"/>
+        <geom class="collision" mesh="base_berxel_camera_link"/>
+      </body>
+      
+      <!-- 烟雾传感器 -->
+      <body name="smoke_link" pos="0.1721 0.07883 0.149" euler="0 0 0.43633">
+        <inertial pos="-0.01139 0 -0.003" mass="0.001" diaginertia="2.9e-06 1.8e-06 1.9e-06"/>
+        <geom class="visual" mesh="smoke_link" material="dark_gray"/>
+        <geom class="collision" mesh="smoke_link"/>
+      </body>
+      
+      <!-- 湿度温度传感器 -->
+      <body name="humtmper_link" pos="0.170839 -0.08155 0.149" euler="0 0 -0.43633">
+        <inertial pos="-0.01139 -0.00013 -0.00294" mass="0.001" diaginertia="2.9e-06 1.8e-06 1.9e-06"/>
+        <geom class="visual" mesh="humtmper_link" material="dark_gray"/>
+        <geom class="collision" mesh="humtmper_link"/>
+      </body>
+      
+      <!-- 右侧超声波传感器 -->
+      <body name="right_ultrasound_link" pos="-0.17932 -0.063487 0.149" euler="0 0 -2.79252">
+        <inertial pos="-0.01139 -0.00013 -0.00294" mass="0.001" diaginertia="2.9e-06 1.8e-06 1.9e-06"/>
+        <geom class="visual" mesh="right_ultrasound_link" material="dark_gray"/>
+        <geom class="collision" mesh="right_ultrasound_link"/>
+      </body>
+      
+      <!-- 左侧超声波传感器 -->
+      <body name="left_ultrasound_link" pos="-0.178298 0.066293 0.14903" euler="0 0 2.79252">
+        <inertial pos="-0.01139 -0.00014 -0.00294" mass="0.001" diaginertia="2.9e-06 1.8e-06 1.9e-06"/>
+        <geom class="visual" mesh="left_ultrasound_link" material="dark_gray"/>
+        <geom class="collision" mesh="left_ultrasound_link"/>
+      </body>
+      
+      <!-- 底部摄像头 -->
+      <body name="bottom_camera_link" pos="-0.195998 0 0.0345" euler="0 0 3.14159">
+        <inertial pos="-0.01276 -0.00025 -0.00059" mass="0.001" diaginertia="6.3e-07 4.6e-07 4.4e-07"/>
+        <geom class="visual" mesh="bottom_camera_link" material="dark_gray"/>
+        <geom class="collision" mesh="bottom_camera_link"/>
+      </body>
+      
+      <!-- 前激光雷达 -->
+      <body name="front_lidar_link" pos="0.140504 0 0.217" euler="3.14159 0 1.57080">
+        <inertial pos="0.00652 0.00022 -0.00112" mass="0.089" diaginertia="2.8e-05 5.0e-05 5.6e-05"/>
+        <geom class="visual" mesh="front_lidar_link" material="blue"/>
+        <geom class="collision" mesh="front_lidar_link"/>
+      </body>
+      
+      <!-- 后激光雷达 -->
+      <body name="rear_lidar_link" pos="-0.139496 0 0.217" euler="3.14159 0 1.57080">
+        <inertial pos="0.00652 0.00022 -0.00112" mass="0.089" diaginertia="2.8e-05 5.0e-05 5.6e-05"/>
+        <geom class="visual" mesh="rear_lidar_link" material="blue"/>
+        <geom class="collision" mesh="rear_lidar_link"/>
+      </body>
+      
+      <!-- 顶盖 -->
+      <body name="cover_link" pos="0.034465 0 0.2945">
+        <inertial pos="-0.04603 0.00011 -0.01220" mass="0.02" diaginertia="0.0077 0.0119 0.0176"/>
+        <geom class="visual" mesh="cover_link" material="dark_gray"/>
+        <geom class="collision" mesh="cover_link"/>
+      </body>
+      
+      <!-- 轮子 - 使用简化几何形状 -->
+      <body name="left_wheel_link" pos="-0.079 -0.136 0.020" euler="0 1.57079 -2.094">
+        <inertial pos="0 0 0" mass="0.10" diaginertia="7.6e-5 7.6e-5 1.25e-4"/>
+        <geom type="cylinder" size="0.045 0.01" rgba="0.3 0.3 0.3 1.0"/>
+      </body>
+      
+      <body name="right_wheel_link" pos="-0.079 0.136 0.02" euler="0 1.57079 2.094">
+        <inertial pos="0 0 0" mass="0.10" diaginertia="7.6e-5 7.6e-5 1.25e-4"/>
+        <geom type="cylinder" size="0.045 0.01" rgba="0.3 0.3 0.3 1.0"/>
+      </body>
+      
+      <body name="front_wheel_link" pos="0.157 0 0.02" euler="0 1.57079 0">
+        <inertial pos="0 0 0" mass="0.10" diaginertia="7.6e-5 7.6e-5 1.25e-4"/>
+        <geom type="cylinder" size="0.045 0.01" rgba="0.3 0.3 0.3 1.0"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="joint_x" joint="joint_x" kp="1000000" kv="50000"/>
+    <position name="joint_y" joint="joint_y" kp="1000000" kv="50000"/>
+    <position name="joint_th" joint="joint_th" kp="50000" kv="1000"/>
+  </actuator>
+</mujoco> 

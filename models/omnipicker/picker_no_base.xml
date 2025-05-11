@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<mujoco model="omnipicker">
+    <compiler angle="radian" meshdir="meshes/" />
+    
+    <option timestep="0.002" iterations="50" solver="Newton" tolerance="1e-10" />
+    
+    <default>
+        <default class="visual">
+            <geom type="mesh" contype="0" conaffinity="0" group="1" />
+        </default>
+        <default class="collision">
+            <geom type="mesh" group="4" />
+        </default>
+        <default class="joint">
+            <joint armature="0.1" damping="1" frictionloss="0.1" />
+        </default>
+    </default>
+    
+    <asset>
+        <material name="gray" rgba="0.75294 0.75294 0.75294 1" />
+        <material name="light_gray" rgba="0.89804 0.91765 0.92941 1" />
+        
+        <!-- 网格文件 -->
+        <!-- base_link.stl文件格式问题，暂不使用 -->
+        <mesh file="narrow1_Link.stl" name="mesh_narrow1_Link" />
+        <mesh file="narrow2_Link.stl" name="mesh_narrow2_Link" />
+        <mesh file="narrow3_Link.stl" name="mesh_narrow3_Link" />
+        <mesh file="narrow_loop_Link.stl" name="mesh_narrow_loop_Link" />
+        <mesh file="wide1_Link.stl" name="mesh_wide1_Link" />
+        <mesh file="wide2_Link.stl" name="mesh_wide2_Link" />
+        <mesh file="wide3_Link.stl" name="mesh_wide3_Link" />
+        <mesh file="wide_loop_Link.stl" name="mesh_wide_loop_Link" />
+    </asset>
+    
+    <worldbody>
+        <body name="base_link" pos="0 0 0">
+            <inertial pos="-0.00005520 1.2341E-05 0.03296193" mass="0.25641368" 
+                      diaginertia="4.6351E-04 4.4525E-04 1.0438E-04" />
+            
+            <!-- 使用简化几何体替代有问题的STL文件 -->
+            <geom type="cylinder" size="0.045 0.03" pos="0 0 0.03" rgba="0.89804 0.91765 0.92941 1" />
+            
+            <!-- 窄边爪子链 -->
+            <body name="hand_narrow1_Link" pos="0 -0.0195 0.0565" quat="0.003039 -0.0131 -0.9999 0.0029">
+                <inertial pos="0.0094685 0.0068806 6.5437E-05" mass="0.025428" 
+                          diaginertia="1.9574E-06 2.3919E-06 1.5501E-06" />
+                <joint name="hand_narrow1_joint" class="joint" type="hinge" axis="0 0 -1" 
+                       range="-3.14 3.14" />
+                <geom class="visual" mesh="mesh_narrow1_Link" material="gray" />
+                <geom class="collision" mesh="mesh_narrow1_Link" />
+                
+                <body name="hand_narrow2_Link" pos="0.030852 0.018551 0">
+                    <inertial pos="0.0088027 -0.007035 1.6424E-05" mass="0.0040132" 
+                              diaginertia="1.0307E-07 1.1385E-07 1.7009E-07" />
+                    <joint name="hand_narrow2_joint" class="joint" type="hinge" axis="0 0 -1" 
+                           range="-3.14 3.14" />
+                    <geom class="visual" mesh="mesh_narrow2_Link" material="gray" />
+                    <geom class="collision" mesh="mesh_narrow2_Link" />
+                    
+                    <body name="hand_narrow3_Link" pos="0.018118 -0.01574 0">
+                        <inertial pos="0.012508 -0.0079729 9.4339E-05" mass="0.018029" 
+                                  diaginertia="1.1403E-06 2.5704E-06 2.3252E-06" />
+                        <joint name="hand_narrow3_joint" class="joint" type="hinge" axis="0 0 -1" 
+                               range="-3.14 3.14" />
+                        <geom class="visual" mesh="mesh_narrow3_Link" material="gray" />
+                        <geom class="collision" mesh="mesh_narrow3_Link" />
+                        
+                        <body name="hand_narrow4_Link" pos="0 -0.0104 0">
+                            <!-- 这是一个空的链接，没有视觉或碰撞几何体 -->
+                        </body>
+                    </body>
+                </body>
+            </body>
+            
+            <!-- 窄边环形链 -->
+            <body name="hand_narrow_loop_Link" pos="0 -0.021633 0.07387" quat="0.003039 -0.0131 -0.9999 0.0029">
+                <inertial pos="0.014869 -0.0036066 0.00029307" mass="0.022591" 
+                          diaginertia="4.3916E-06 4.737E-06 6.0445E-07" />
+                <joint name="hand_narrow_loop_joint" class="joint" type="hinge" axis="0 0 -1" 
+                       range="-3.14 3.14" />
+                <geom class="visual" mesh="mesh_narrow_loop_Link" material="gray" />
+                <geom class="collision" mesh="mesh_narrow_loop_Link" />
+            </body>
+            
+            <!-- 宽边爪子链 -->
+            <body name="hand_wide1_Link" pos="0 0.0195 0.0565" quat="0.003039 -0.0131 -0.9999 0.0029">
+                <inertial pos="0.0095051 -0.0068479 6.8268E-05" mass="0.025428" 
+                          diaginertia="1.9565E-06 2.3928E-06 1.5501E-06" />
+                <joint name="hand_wide1_joint" class="joint" type="hinge" axis="0 0 -1" 
+                       range="-3.14 3.14" />
+                <geom class="visual" mesh="mesh_wide1_Link" material="gray" />
+                <geom class="collision" mesh="mesh_wide1_Link" />
+                
+                <body name="hand_wide2_Link" pos="0.030852 -0.018551 0">
+                    <inertial pos="0.0088027 0.007035 -1.6424E-05" mass="0.0040132" 
+                              diaginertia="1.0307E-07 1.1385E-07 1.7009E-07" />
+                    <joint name="hand_wide2_joint" class="joint" type="hinge" axis="0 0 -1" 
+                           range="-3.14 3.14" />
+                    <geom class="visual" mesh="mesh_wide2_Link" material="gray" />
+                    <geom class="collision" mesh="mesh_wide2_Link" />
+                    
+                    <body name="hand_wide3_Link" pos="0.018118 0.01574 0">
+                        <inertial pos="0.016206 0.0094593 4.7668E-05" mass="0.035835" 
+                                  diaginertia="8.5056E-06 1.1235E-05 4.6309E-06" />
+                        <joint name="hand_wide3_joint" class="joint" type="hinge" axis="0 0 -1" 
+                               range="-3.14 3.14" />
+                        <geom class="visual" mesh="mesh_wide3_Link" material="gray" />
+                        <geom class="collision" mesh="mesh_wide3_Link" />
+                        
+                        <body name="hand_wide4_Link" pos="0 0.0104 0">
+                            <!-- 这是一个空的链接，没有视觉或碰撞几何体 -->
+                        </body>
+                    </body>
+                </body>
+            </body>
+            
+            <!-- 宽边环形链 -->
+            <body name="hand_wide_loop_Link" pos="0 0.021633 0.07387" quat="0.003039 -0.0131 -0.9999 0.0029">
+                <inertial pos="0.016268 0.0040555 0.00030323" mass="0.025142" 
+                          diaginertia="5.887E-06 6.236E-06 6.2389E-07" />
+                <joint name="hand_wide_loop_joint" class="joint" type="hinge" axis="0 0 -1" 
+                       range="-3.14 3.14" />
+                <geom class="visual" mesh="mesh_wide_loop_Link" material="gray" />
+                <geom class="collision" mesh="mesh_wide_loop_Link" />
+            </body>
+        </body>
+        
+        <light pos="0 0 2" dir="0 0 -1" diffuse="1 1 1" />
+        <camera name="view" pos="0.5 0 0.2" xyaxes="-1 0 0 0 1 2" />
+    </worldbody>
+    
+    <actuator>
+        <!-- 添加各关节的执行器 -->
+        <motor name="hand_narrow1" joint="hand_narrow1_joint" gear="1" />
+        <motor name="hand_narrow2" joint="hand_narrow2_joint" gear="1" />
+        <motor name="hand_narrow3" joint="hand_narrow3_joint" gear="1" />
+        <motor name="hand_narrow_loop" joint="hand_narrow_loop_joint" gear="1" />
+        <motor name="hand_wide1" joint="hand_wide1_joint" gear="1" />
+        <motor name="hand_wide2" joint="hand_wide2_joint" gear="1" />
+        <motor name="hand_wide3" joint="hand_wide3_joint" gear="1" />
+        <motor name="hand_wide_loop" joint="hand_wide_loop_joint" gear="1" />
+    </actuator>
+    
+    <keyframe>
+        <!-- 预设的机械手位置 -->
+        <key name="home" qpos="0 0 0 0 0 0 0 0" />
+        <key name="open" qpos="0 -0.7 -1.0 0 0 0.7 1.0 0" />
+        <key name="closed" qpos="0 0.7 1.0 0 0 -0.7 -1.0 0" />
+    </keyframe>
+</mujoco>
