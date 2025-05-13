@@ -258,11 +258,12 @@
                       <joint name="joint_7" axis="0 0 1" range="-3.0014 3.0014"/>
                       <geom class="gen72/visual" mesh="gen72/Link7"/>
                       <geom class="gen72/collision" mesh="gen72/Link7"/>
-                      <site name="pinch_site" pos="0 0 -0.05" quat="0 1 0 0"/>
+                      <!-- <site name="pinch_site" type="sphere" pos="0 0 0" quat="0 1 0 0" size="0.01" rgba="1 0 0 1"/> -->
                       <!-- 这里可以添加末端执行器,如夹爪等 -->
                       <!-- Robotiq 2F85 Gripper attached to Link7 -->
                       <!-- pos="0.05 0 0" 看到的gripper更多，这里要斟酌一下，看看模型效果 -->
                       <camera name="wrist" pos="0.08 0 0" euler="0 3.0 1.57" fovy="41.83792730009236" resolution="640 480"/>
+                      <site name="pinch_site" pos="0 0 0.12" type="sphere" size="0.01" rgba="1 0 0 1"/> 
                       <body name="base" pos="0 0 0" quat="1 0 0 0" childclass="2f85">
                         <inertial mass="0.777441" pos="0 -2.70394e-05 0.0354675" quat="1 -0.00152849 0 0"
                           diaginertia="0.000260285 0.000225381 0.000152708"/>
@@ -350,7 +351,6 @@
                             </body>
                           </body>
                         </body>
-                        <site name="gripper_pinch_site" pos="0 0 0.145" type="sphere" group="5" rgba="0.9 0.9 0.9 1" size="0.005"/> Copied from 2f85.xml's pinch site, relative to gripper base
                       </body>
                     </body>
                   </body>

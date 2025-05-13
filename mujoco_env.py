@@ -17,6 +17,8 @@ import numpy as np
 from ruckig import InputParameter, OutputParameter, Result, Ruckig
 from constants import POLICY_CONTROL_PERIOD
 from ik_solver import IKSolver
+import logging
+from scipy.spatial.transform import Rotation as R
 
 class ShmState:
     def __init__(self, existing_instance=None):
@@ -163,7 +165,8 @@ class ArmController:
 
     def reset(self):
         # Initialize arm in "retract" configuration
-        self.qpos[:] = np.array([0.0, -0.34906585, 3.14159265, -2.54818071, 0.0, -0.87266463, 1.57079633])
+        self.qpos[:] = np.array([0.0, -1.0, 0.0, -2.0, 0.0, 0.63, 0.0])
+        print("setting the arm reset: ", self.qpos)
         self.ctrl[:] = self.qpos
         self.ctrl_gripper[:] = 0.0
 
@@ -422,13 +425,15 @@ if __name__ == '__main__':
         while True:
             env.reset()
             for _ in range(100):
-                action = {
-                    'base_pose': 0.1 * np.random.rand(3) - 0.05,
-                    'arm_pos': 0.1 * np.random.rand(3) + np.array([0.55, 0.0, 0.4]),
-                    'arm_quat': np.random.rand(4),
-                    'gripper_pos': np.random.rand(1),
-                }
-                env.step(action)
+                obs = env.get_obs()
+                print(obs)
+                # action = {
+                #     'base_pose': 0.1 * np.random.rand(3) - 0.05,
+                #     'arm_pos': 0.1 * np.random.rand(3) + np.array([0.09, 0.0, 0.58]),
+                #     'arm_quat': np.array([0.0, 1.0, 0.0, 0.0]),
+                #     'gripper_pos': np.random.rand(1),
+                # }
+                # env.step(action)
                 obs = env.get_obs()
                 print([(k, v.shape) if v.ndim == 3 else (k, v) for (k, v) in obs.items()])
                 time.sleep(POLICY_CONTROL_PERIOD)  # Note: Not precise
