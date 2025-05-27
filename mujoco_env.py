@@ -151,7 +151,7 @@ class ArmController:
         self.ctrl_gripper = ctrl_gripper
 
         # IK solver
-        self.ik_solver = IKSolver(ee_offset=0.12)
+        self.ik_solver = IKSolver(ee_offset= -0.12)
 
         # OTG (online trajectory generation)
         num_dofs = 7
@@ -197,7 +197,7 @@ class ArmController:
         # Maintain current pose if command stream is disrupted
         if time.time() - self.last_command_time > 2.5 * POLICY_CONTROL_PERIOD:
             self.otg_inp.target_position = self.otg_out.new_position
-            self.otg_res = Result.Working
+            self.otg_res = Result.Working # 工作中
 
         # Update OTG
         if self.otg_res == Result.Working:
@@ -426,14 +426,14 @@ if __name__ == '__main__':
             env.reset()
             for _ in range(100):
                 obs = env.get_obs()
-                print(obs)
-                # action = {
-                #     'base_pose': 0.1 * np.random.rand(3) - 0.05,
-                #     'arm_pos': 0.1 * np.random.rand(3) + np.array([0.09, 0.0, 0.58]),
-                #     'arm_quat': np.array([0.0, 1.0, 0.0, 0.0]),
-                #     'gripper_pos': np.random.rand(1),
-                # }
-                # env.step(action)
+                # print(obs)
+                action = {
+                    'base_pose': 0.1 * np.random.rand(3) - 0.05,
+                    'arm_pos':  np.array([0.309, 0.000, 0.540]),
+                    'arm_quat': np.array([0.826, 0.000, 0.563, 0.000]),
+                    'gripper_pos': np.random.rand(1),
+                }
+                env.step(action)
                 obs = env.get_obs()
                 print([(k, v.shape) if v.ndim == 3 else (k, v) for (k, v) in obs.items()])
                 time.sleep(POLICY_CONTROL_PERIOD)  # Note: Not precise

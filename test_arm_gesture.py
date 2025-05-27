@@ -18,7 +18,7 @@ def display_retract_pose(xml_path):
     print("site_mat =", site_mat)
     
     # 获取retract姿态信息
-    qpos = model.key('retract').qpos
+    qpos = model.key('home').qpos
     # 设置关节角度为 retract 状态
     data.qpos = qpos
     print("current qpos =", data.qpos)
