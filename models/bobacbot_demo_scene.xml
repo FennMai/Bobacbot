@@ -1,6 +1,21 @@
+<!-- 
+    Author：zmai
+    Edit time：2025-04-15
+    Include:
+    包含多种物体和交互的桌面仿真环境。
+    主要内容包括：
+    1. 场景基础设置：光照、纹理、材质等。
+    2. 物体定义：
+        - 动态(带自由度)物品: Cube
+        - 静态(无自由度)物品: 桌子
+    3. 世界体布局：定义了物体的位置、大小、质量、摩擦力等物理属性。
+-->
+
 <mujoco model="obacbot scene">
   <include file="bobacbot.xml"/>
-
+  <include file="textures/textures.xml"/>
+  <include file="assets/objects/basic/table_left.xml"/>
+  <include file="assets/objects/basic/table_right.xml"/>
   <statistic center="0.25 0 0.6" extent="1.0" meansize="0.05"/>
 
   <visual>
@@ -19,10 +34,10 @@
 
   <worldbody>
     <light pos="0 0 1.5" directional="true"/>
-    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
-    <body name="cube" pos="0.6 0 0.02">
+    <geom name="floor" size="0 0 0.05" type="plane" material="wood-varnished-panels-mat"/>
+    <body name="cube" pos="0.6 -1.2 0.7">
       <freejoint/>
-      <geom type="box" size="0.02 0.02 0.02" rgba=".5 .7 .5 1" mass="0.1"/>
+      <geom type="box" size="0.04 0.04 0.04" rgba=".5 .7 .5 1" mass="0.1"/>
     </body>
   </worldbody>
 </mujoco>

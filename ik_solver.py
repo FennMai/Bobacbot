@@ -28,7 +28,7 @@ class IKSolver:
         self.site_mat = self.data.site(self.site_id).xmat   # 末端当前旋转矩阵
 
         # 设置 site 到夹爪末端
-        self.model.site(self.site_id).pos = np.array([0.0, 0.0, -0.061525 - ee_offset])  # Kinova gripper length
+        self.model.site(self.site_id).pos[2] += ee_offset  # Apply Z-axis offset for the gripper length
 
         # 预分配数组提高效率
         self.err = np.empty(6)              # 误差向量 (3D 位置误差 + 3D 朝向误差)

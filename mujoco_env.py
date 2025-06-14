@@ -151,7 +151,7 @@ class ArmController:
         self.ctrl_gripper = ctrl_gripper
 
         # IK solver
-        self.ik_solver = IKSolver(ee_offset= -0.12)
+        self.ik_solver = IKSolver(ee_offset=0.0)
 
         # OTG (online trajectory generation)
         num_dofs = 7
@@ -316,7 +316,7 @@ class MujocoSim:
 class MujocoEnv:
     def __init__(self, render_images=True, show_viewer=True, show_images=False):
         # self.mjcf_path = 'models/stanford_tidybot/scene.xml'
-        self.mjcf_path = 'models/bobacbot_basic_scene.xml'
+        self.mjcf_path = 'models/bobacbot_demo_scene.xml'
         self.render_images = render_images
         self.show_viewer = show_viewer
         self.show_images = show_images
@@ -422,20 +422,23 @@ if __name__ == '__main__':
     # env = MujocoEnv(show_images=True)
     # env = MujocoEnv(render_images=False)
     try:
+        env.reset()
+        obs = env.get_obs()
+        print(f"orin obs:{[(k, v.shape) if v.ndim == 3 else (k, v) for (k, v) in obs.items()]}")
+        target_arm_pos = obs['arm_pos']
+        target_arm_quat = obs['arm_quat']
+        
         while True:
-            env.reset()
-            for _ in range(100):
-                obs = env.get_obs()
-                # print(obs)
-                action = {
-                    'base_pose': 0.1 * np.random.rand(3) - 0.05,
-                    'arm_pos':  np.array([0.309, 0.000, 0.540]),
-                    'arm_quat': np.array([0.826, 0.000, 0.563, 0.000]),
-                    'gripper_pos': np.random.rand(1),
-                }
-                env.step(action)
-                obs = env.get_obs()
-                print([(k, v.shape) if v.ndim == 3 else (k, v) for (k, v) in obs.items()])
-                time.sleep(POLICY_CONTROL_PERIOD)  # Note: Not precise
+            # Hold the initial arm pose and randomize gripper
+            action = {
+                'base_pose': obs['base_pose'], # Let base stay
+                'arm_pos':  target_arm_pos,
+                'arm_quat': target_arm_quat,
+                'gripper_pos': np.random.rand(1),
+            }
+            env.step(action)
+            obs = env.get_obs()
+            print([(k, v.shape) if v.ndim == 3 else (k, v) for (k, v) in obs.items()])
+            time.sleep(POLICY_CONTROL_PERIOD)  # Note: Not precise
     finally:
         env.close()

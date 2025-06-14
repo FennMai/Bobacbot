@@ -215,7 +215,7 @@
                     </body>
                     <camera name="wrist" pos="0 -0.05639 -0.058475" quat="0 0 0 1" fovy="41.83792730009236"
                       resolution="640 480"/>
-                    <site name="pinch_site" pos="0 0 -0.181525" quat="0 1 0 0"/>
+                    <site name="pinch_site" pos="0 0 -0.181525" quat="0 1 0 0" type="sphere" size="0.01" rgba="1 0 0 1"//>
                   </body>
                 </body>
               </body>

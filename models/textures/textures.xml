@@ -1,0 +1,69 @@
+<mujoco>
+    <asset>
+        <texture name="yellow-plaster" type="2d" file="textures/yellow-plaster.png"/>
+        <material name="yellow-plaster-mat" texture="yellow-plaster" />
+
+        <texture name="wood-varnished-panels" type="2d" file="textures/wood-varnished-panels.png"/>
+        <material name="wood-varnished-panels-mat" texture="wood-varnished-panels" />
+
+        <texture name="white-plaster" type="2d" file="textures/white-plaster.png"/>
+        <material name="white-plaster-mat" texture="white-plaster" />
+
+        <texture name="wood-tiles" type="2d" file="textures/wood-tiles.png"/>
+        <material name="wood-tiles-mat" texture="wood-tiles" />
+
+        <texture name="white-bricks" type="2d" file="textures/white-bricks.png"/>
+        <material name="white-bricks-mat" texture="white-bricks" />
+
+        <texture name="steel-brushed" type="2d" file="textures/steel-brushed.png"/>
+        <material name="steel-brushed-mat" texture="steel-brushed" />
+
+        <texture name="steel-scratched" type="2d" file="textures/steel-scratched.png"/>
+        <material name="steel-scratched-mat" texture="steel-scratched" />
+
+        <texture name="metal" type="2d" file="textures/metal.png"/>
+        <material name="metal-mat" texture="metal" />
+
+        <texture name="pink-plaster" type="2d" file="textures/pink-plaster.png"/>
+        <material name="pink-plaster-mat" texture="pink-plaster" />
+
+        <texture name="light-gray-plaster" type="2d" file="textures/light-gray-plaster.png"/>
+        <material name="light-gray-plaster-mat" texture="light-gray-plaster" />
+
+        <texture name="light-wood" type="2d" file="textures/light-wood.png"/>
+        <material name="light-wood-mat" texture="light-wood" />
+
+        <texture name="light-gray-floor-tile" type="2d" file="textures/light-gray-floor-tile.png"/>
+        <material name="light-gray-floor-tile-mat" texture="light-gray-floor-tile" />
+
+        <texture name="gray-woodgrain" type="2d" file="textures/gray-woodgrain.png"/>
+        <material name="gray-woodgrain-mat" texture="gray-woodgrain" />
+
+        <texture name="green-wood" type="2d" file="textures/green-wood.png"/>
+        <material name="green-wood-mat" texture="green-wood" />
+
+        <texture name="gray-felt" type="2d" file="textures/gray-felt.png"/>
+        <material name="gray-felt-mat" texture="gray-felt" />
+
+        <texture name="gray-plaster" type="2d" file="textures/gray-plaster.png"/>
+        <material name="gray-plaster-mat" texture="gray-plaster" />
+
+        <texture name="dark-wood" type="2d" file="textures/dark-wood.png"/>
+        <material name="dark-wood-mat" texture="dark-wood" />
+
+        <texture name="clay" type="2d" file="textures/clay.png"/>
+        <material name="clay-mat" texture="clay" />
+
+        <texture name="cream-plaster" type="2d" file="textures/cream-plaster.png"/>
+        <material name="cream-plaster-mat" texture="cream-plaster" />
+
+        <texture name="bread" type="2d" file="textures/bread.png"/>
+        <material name="bread-mat" texture="bread" />
+
+        <texture name="brass-ambra" type="2d" file="textures/brass-ambra.png"/>
+        <material name="brass-ambra-mat" texture="brass-ambra" />
+
+        <texture name="blue-wood" type="2d" file="textures/blue-wood.png"/>
+        <material name="blue-wood-mat" texture="blue-wood" />
+    </asset>
+</mujoco>

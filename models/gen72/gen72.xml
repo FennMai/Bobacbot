@@ -78,7 +78,7 @@
                     <joint name="joint7" axis="0 0 1" range="-3.0014 3.0014"/>
                     <geom class="visual" mesh="Link7"/>
                     <geom class="collision" mesh="Link7"/>
-                    <site name="pinch_site" type="sphere" pos="0 0 0" quat="0 1 0 0" size="0.01" rgba="1 0 0 1"/>
+                    <site name="pinch_site" pos="0 0 0" quat="0 1 0 0" type="sphere" size="0.01" rgba="1 0 0 1"/> 
                   </body>
                 </body>
               </body>
