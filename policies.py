@@ -37,6 +37,9 @@ class WebServer:
             # Send the timestamp back for RTT calculation (expected RTT on 5 GHz Wi-Fi is 7 ms)
             emit('echo', data['timestamp'])
 
+            # --- DEBUG: Print received message ---
+            # print(f"[WebServer] Received: {data}")
+
             # Add data to queue for processing
             self.queue.put(data)
 

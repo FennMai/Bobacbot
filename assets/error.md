@@ -157,3 +157,41 @@ KeyboardInterrupt
 ```
 [('base_pose', array([-2.67701456e-04,  3.38152010e-07,  2.20749165e-06])), ('arm_pos', array([ 1.85681130e-01, -5.84933442e-08,  6.27069651e-01])), ('arm_quat', array([-6.50272573e-07, -5.61318403e-01,  1.94787665e-07,  8.27599934e-01])), ('gripper_pos', array([0.51865765])), ('base_image', (360, 640, 3)), ('wrist_image', (480, 640, 3))]
 ```
+
+5. camera error
+
+```
+Teleop is now active. Press "Reset env" in the web app when ready to proceed.
+[ERROR:0@25.972] global cap_ffmpeg_impl.hpp:3130 open Could not find encoder for codec_id=27, error: Encoder not found
+[ERROR:0@25.973] global cap_ffmpeg_impl.hpp:3208 open VIDEOIO/FFMPEG: Failed to initialize VideoWriter
+[ERROR:0@25.978] global cap_ffmpeg_impl.hpp:3130 open Could not find encoder for codec_id=27, error: Encoder not found
+[ERROR:0@25.978] global cap_ffmpeg_impl.hpp:3208 open VIDEOIO/FFMPEG: Failed to initialize VideoWriter
+Saved episode to data/sim_pick_place_2/20250615T013846697648 (8 total)
+Resetting env...
+```
+
+6. training error
+```
+(robodiff) publictest@rtx4090-02:/mnt/ssd1/zmai/Bobacbot/training/diffusion_policy$ python train.py --config-name=train_diffusion_unet_real_hybrid_workspace
+/home/publictest/miniconda3/envs/robodiff/lib/python3.9/site-packages/wandb/apis/public.py:2997: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['arm_pos', 'gripper_pos', 'arm_quat', 'base_pose']
+using obs modality: rgb with keys: ['wrist_image', 'base_image']
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+/home/publictest/miniconda3/envs/robodiff/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+/home/publictest/miniconda3/envs/robodiff/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=None`.
+  warnings.warn(msg)
+[2025-06-15 12:11:08,797][diffusion_policy.model.diffusion.conditional_unet1d][INFO] - number of parameters: 6.698612e+07
+Diffusion params: 6.698612e+07
+Vision params: 2.239418e+07
+Error executing job with overrides: []
+Error locating target 'diffusion_policy.dataset.robomimic_replay_image_dataset.RobomimicReplayImageDataset', see chained exception above.
+full_key: task.dataset
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+```

@@ -35,9 +35,9 @@
   <worldbody>
     <light pos="0 0 1.5" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="wood-varnished-panels-mat"/>
-    <body name="cube" pos="0.6 -1.2 0.7">
+    <body name="cube" pos="0.8 -0.2 0.7">
       <freejoint/>
-      <geom type="box" size="0.04 0.04 0.04" rgba=".5 .7 .5 1" mass="0.1"/>
+      <geom type="box" size="0.03 0.03 0.03" rgba=".5 .7 .5 1" mass="0.1"/>
     </body>
   </worldbody>
 </mujoco>

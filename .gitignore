@@ -23,4 +23,6 @@ TestResults.xml
 
 data/
 
-diffusion_policy/
+training/
+
+models/checkpoints/

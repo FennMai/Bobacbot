@@ -32,7 +32,7 @@ def run_episode(env, policy, writer=None):
     # Wait for user to press "Start episode"
     print('Press "Start episode" in the web app when ready to start new episode')
     policy.reset()
-    print('Starting new episode')
+    print('Finished reset, Starting new episode')
 
     episode_ended = False
     start_time = time.time()
