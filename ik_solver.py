@@ -15,7 +15,8 @@ MAX_ANGLE_CHANGE = np.deg2rad(45) # 最大角度变化
 class IKSolver:
     def __init__(self, ee_offset=0.0):
         # Load Mujoco model (Kinova) without gripper
-        self.model = mujoco.MjModel.from_xml_path('models/gen72/gen72.xml')
+        # self.model = mujoco.MjModel.from_xml_path('models/gen72/gen72.xml')
+        self.model = mujoco.MjModel.from_xml_path('models/eco65b/eco65b.xml') # change to eco65b
         self.data = mujoco.MjData(self.model)
         # 设置重力补偿
         self.model.body_gravcomp[:] = 1.0
@@ -88,15 +89,27 @@ class IKSolver:
     
 if __name__ == '__main__':
     ik_solver = IKSolver()
-    home_pos, home_quat = np.array([0.456, 0.0, 0.434]), np.array([0.5, 0.5, 0.5, 0.5])
-    retract_qpos = np.deg2rad([0, -20, 180, -146, 0, -50, 90])
+    
+    # 调整测试参数以适应eco65b机械臂
+    # 需要重新确定合适的末端位置和姿态
+    home_pos, home_quat = np.array([0.3, 0.0, 0.2]), np.array([0.0, 1.0, 0.0, 0.0])  # 调整为eco65b的合理工作空间
+    
+    # 使用eco65b的retract关节角度 (6个关节)
+    # 从eco65b.xml中的retract keyframe: "0.0 0.52 -1.2 0.34 1.57 -1.57"
+    retract_qpos = np.array([0.0, 0.52, -1.2, 0.34, 1.57, -1.57])
+    
+    print(f"eco65b关节数量: {len(retract_qpos)}")
+    print(f"收缩姿态 (弧度): {retract_qpos}")
+    print(f"收缩姿态 (度数): {np.rad2deg(retract_qpos).round()}")
 
     import time
     start_time = time.time()
     for _ in range(1000):
         qpos = ik_solver.solve(home_pos, home_quat, retract_qpos)
     elapsed_time = time.time() - start_time
-    print(f'Time per call: {elapsed_time:.3f} ms')  # 0.59 ms
+    print(f'平均每次调用时间: {elapsed_time:.3f} ms')
 
-    # Home: 0, 15, 180, -130, 0, 55, 90
-    print(np.rad2deg(ik_solver.solve(home_pos, home_quat, retract_qpos)).round())
+    # 输出逆运动学求解结果
+    result_qpos = ik_solver.solve(home_pos, home_quat, retract_qpos)
+    print(f"逆运动学求解结果 (度数): {np.rad2deg(result_qpos).round()}")
+    print(f"逆运动学求解结果 (弧度): {result_qpos.round(3)}")
