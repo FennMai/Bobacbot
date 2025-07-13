@@ -1,0 +1,90 @@
+<mujoco model="eco65b">
+  <compiler angle="radian" meshdir="."/>
+
+  <option integrator="implicitfast"/>
+
+  <default>
+    <default class="visual">
+      <geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.75294 0.75294 0.75294 1"/>
+    </default>
+    <default class="collision">
+      <geom type="mesh" group="3"/>
+    </default>
+    <default class="large_actuator">
+      <position kp="2000" kv="100" forcerange="-105 105"/>
+    </default>
+    <default class="small_actuator">
+      <position kp="500" kv="50" forcerange="-52 52"/>
+    </default>
+    <site size="0.001" rgba="0.5 0.5 0.5 0.3" group="4"/>
+  </default>
+
+  <asset>
+    <mesh name="base_link" file="meshes/base_link.stl"/>
+    <mesh name="Link1" file="meshes/Link1.stl"/>
+    <mesh name="Link2" file="meshes/Link2.stl"/>
+    <mesh name="Link3" file="meshes/Link3.stl"/>
+    <mesh name="Link4" file="meshes/Link4.stl"/>
+    <mesh name="Link5" file="meshes/Link5.stl"/>
+    <mesh name="Link6" file="meshes/Link6.stl"/>
+  </asset>
+
+  <worldbody>
+    <body name="base_link" quat="0 0 0 1">
+      <inertial pos="0.00059982 -9.2932E-05 0.043301" mass="0.61127" diaginertia="0.00080212 0.00080502 0.00066167"/>
+      <geom class="visual" mesh="base_link"/>
+      <geom class="collision" mesh="base_link"/>
+      <body name="Link1" pos="0 0 0.1625">
+        <inertial pos="-0.022858 -2.0784E-06 -0.013658" mass="0.74247" diaginertia="0.00081398 0.001848 0.0015286"/>
+        <joint name="joint1" axis="0 0 1" range="-3.1923 3.1923"/>
+        <geom class="visual" mesh="Link1"/>
+        <geom class="collision" mesh="Link1"/>
+        <body name="Link2" pos="-0.086 0 0" quat="0.7071 0.7071 0 0">
+          <inertial pos="-1.6049E-06 0.10336 0.067332" mass="1.3502" diaginertia="0.012821 0.0011237 0.012933"/>
+          <joint name="joint2" axis="0 0 -1" range="-2.61666 2.442"/>
+          <geom class="visual" mesh="Link2"/>
+          <geom class="collision" mesh="Link2"/>
+          <body name="Link3" pos="0 0.26 0" quat="0 0.7071 0.7071 0">
+            <inertial pos="0.10374 7.0495E-07 0.018599" mass="1.0422" diaginertia="0.00084115 0.0094046 0.0092482"/>
+            <joint name="joint3" axis="0 0 1" range="-2.50666 2.61666"/>
+            <geom class="visual" mesh="Link3"/>
+            <geom class="collision" mesh="Link3"/>
+            <body name="Link4" pos="0.24 0 -0.05888" quat="0.7071 0 0 0.7071">
+              <inertial pos="-0.0069819 -0.016328 0.0067416" mass="0.27383" diaginertia="1e-6 1e-6 1e-6"/>
+              <joint name="joint4" axis="0 0 1" range="-2.61666 2.61666"/>
+              <geom class="visual" mesh="Link4"/>
+              <geom class="collision" mesh="Link4"/>
+              <body name="Link5" pos="0.00040486 -0.10983 0" quat="0.7071 0.7071 0 0">
+                <inertial pos="-0.00040425 0.0066328 -0.012475" mass="0.27794" diaginertia="0.00024751 0.00017648 0.00019295"/>
+                <joint name="joint5" axis="0 0 1" range="-2.96555 2.96555"/>
+                <geom class="visual" mesh="Link5"/>
+                <geom class="collision" mesh="Link5"/>
+                <body name="Link6" pos="0 0.0795 0" quat="0.7071 -0.7071 0 0">
+                  <inertial pos="0.00095587 -0.0013555 -0.010297" mass="0.033025" diaginertia="1.2968E-05 1.1583E-05 2.0405E-05"/>
+                  <joint name="joint6" axis="0 0 1" range="-2.96555 2.96555"/>
+                  <geom class="visual" mesh="Link6"/>
+                  <geom class="collision" mesh="Link6"/>
+                  <site name="pinch_site" pos="0 0 -0.05" quat="0 1 0 0"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position class="large_actuator" name="joint1" joint="joint1" ctrlrange="-3.1923 3.1923"/>
+    <position class="large_actuator" name="joint2" joint="joint2" ctrlrange="-2.61666 2.442"/>
+    <position class="large_actuator" name="joint3" joint="joint3" ctrlrange="-2.50666 2.61666"/>
+    <position class="large_actuator" name="joint4" joint="joint4" ctrlrange="-2.61666 2.61666"/>
+    <position class="small_actuator" name="joint5" joint="joint5" ctrlrange="-2.96555 2.96555"/>
+    <position class="small_actuator" name="joint6" joint="joint6" ctrlrange="-2.96555 2.96555"/>
+  </actuator>
+
+  <keyframe>
+    <key name="home" qpos="0 0 0 0 0 0" ctrl="0 0 0 0 0 0"/>
+    <key name="retract" qpos="0.0 0.949 -2.16 0.746 1.58 0.0" ctrl="0.0 0.649 -1.68 0.652 1.58 0.0"/>
+  </keyframe>
+</mujoco> 
