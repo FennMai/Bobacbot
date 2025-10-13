@@ -147,7 +147,7 @@ class BaseController:
     def reset(self):
         """重置底盘控制器到初始状态"""
         # 将底盘初始化到原点
-        self.qpos[:] = np.zeros(3)
+        # self.qpos[:] = np.zeros(3)
         self.ctrl[:] = self.qpos
 
         # 初始化轨迹生成器
@@ -271,11 +271,19 @@ class MujocoSim:
     MuJoCo仿真主类
     负责管理整个物理仿真环境，包括模型加载、控制器管理和状态更新
     """
-    def __init__(self, mjcf_path, command_queue, shm_state, show_viewer=True):
+    def __init__(self, mjcf_path, command_queue, shm_state, show_viewer=True, randomize_robot_position=False):
         self.model = mujoco.MjModel.from_xml_path(mjcf_path)    # 从XML文件加载MuJoCo模型
         self.data = mujoco.MjData(self.model)                   # 创建仿真数据结构
         self.command_queue = command_queue                      # 命令队列，用于接收外部控制命令
         self.show_viewer = show_viewer                          # 是否显示可视化窗口
+        self.randomize_robot_position = randomize_robot_position  # 是否随机化机器人位置
+        
+        # 定义机器人位置随机化范围 (世界坐标系)
+        self.robot_position_range = {
+            'x': [-0.5, 0.5],    # X轴范围: -0.5 到 0.5 米
+            'y': [-0.5, 0.5],    # Y轴范围: -0.5 到 0.5 米
+            'yaw': [0, 0]  # 朝向角度范围: 0 到 0
+        }
 
         # 为除物体外的所有物体启用重力补偿
         self.model.body_gravcomp[:] = 1.0
@@ -329,14 +337,31 @@ class MujocoSim:
         # 重置仿真数据
         mujoco.mj_resetData(self.model, self.data)
 
+        # 根据选项决定是否随机化机器人位置
+        if self.randomize_robot_position:
+            # 随机化机器人底盘位置和朝向
+            self.qpos_base[0] = np.random.uniform(*self.robot_position_range['x'])    # 随机X位置
+            self.qpos_base[1] = np.random.uniform(*self.robot_position_range['y'])    # 随机Y位置
+            self.qpos_base[2] = np.random.uniform(*self.robot_position_range['yaw'])  # 随机朝向
+            print(f"机器人随机位置: x={self.qpos_base[0]:.2f}, y={self.qpos_base[1]:.2f}, yaw={self.qpos_base[2]:.2f}")
+        else:
+            # 使用XML文件中定义的默认位置
+            # XML中base_link的pos="-0.5 0 0.035"，但这里只控制x,y,yaw，z由模型决定
+            self.qpos_base[0] = 0.0  # XML中的默认X位置
+            self.qpos_base[1] = 0.0   # XML中的默认Y位置  
+            self.qpos_base[2] = 0.0   # XML中的默认朝向
+            print("机器人使用默认位置: x=0.0, y=0.0, yaw=0.0")
+
         # 随机化立方体位置和朝向
         self.qpos_cube[:2] += np.random.uniform(-0.1, 0.1, 2)  # 在xy平面上随机偏移
         theta = np.random.uniform(-math.pi, math.pi)            # 随机旋转角度
         # 将旋转角度转换为四元数 (绕Z轴旋转)
         self.qpos_cube[3:7] = np.array([math.cos(theta / 2), 0, 0, math.sin(theta / 2)])
-        mujoco.mj_forward(self.model, self.data)  # 更新物理状态
+        
+        # 更新物理状态 
+        mujoco.mj_forward(self.model, self.data)
 
-        # 重置所有控制器
+        # 重置所有控制器 
         self.base_controller.reset()
         self.arm_controller.reset()
 
@@ -396,14 +421,15 @@ class MujocoEnv:
     MuJoCo环境主类
     提供高级接口来管理整个仿真环境，包括多进程管理、图像渲染和状态观测
     """
-    def __init__(self, render_images=True, show_viewer=True, show_images=False):
+    def __init__(self, render_images=True, show_viewer=True, show_images=False, randomize_robot_position=False):
         # 场景文件路径配置
         # self.mjcf_path = 'models/stanford_tidybot/scene.xml'
         self.mjcf_path = 'models/bobacbot_demo_scene.xml'
-        self.render_images = render_images      # 是否渲染图像
-        self.show_viewer = show_viewer          # 是否显示可视化窗口
-        self.show_images = show_images          # 是否显示图像窗口
-        self.command_queue = mp.Queue(1)        # 命令队列，容量为1
+        self.render_images = render_images              # 是否渲染图像
+        self.show_viewer = show_viewer                  # 是否显示可视化窗口
+        self.show_images = show_images                  # 是否显示图像窗口
+        self.randomize_robot_position = randomize_robot_position  # 是否随机化机器人位置
+        self.command_queue = mp.Queue(1)                # 命令队列，容量为1
 
         # 创建状态观测的共享内存
         self.shm_state = ShmState()
@@ -427,7 +453,8 @@ class MujocoEnv:
     def physics_loop(self):
         """物理仿真循环 (在独立进程中运行)"""
         # 创建仿真实例
-        sim = MujocoSim(self.mjcf_path, self.command_queue, self.shm_state, show_viewer=self.show_viewer)
+        sim = MujocoSim(self.mjcf_path, self.command_queue, self.shm_state, 
+                       show_viewer=self.show_viewer, randomize_robot_position=self.randomize_robot_position)
 
         # 启动渲染循环
         if self.render_images:
@@ -519,10 +546,12 @@ if __name__ == '__main__':
     主函数 - 测试仿真环境
     演示如何使用MujocoEnv类进行基本的环境交互
     """
-    # 创建环境实例
-    env = MujocoEnv()
-    # env = MujocoEnv(show_images=True)     # 显示图像窗口
-    # env = MujocoEnv(render_images=False)  # 不渲染图像
+    # 创建环境实例 - 演示不同的配置选项
+    env = MujocoEnv()  # 默认配置: 机器人使用XML中的固定位置
+    # env = MujocoEnv(randomize_robot_position=True)     # 启用机器人位置随机化
+    # env = MujocoEnv(show_images=True)                  # 显示图像窗口
+    # env = MujocoEnv(render_images=False)               # 不渲染图像
+    # env = MujocoEnv(randomize_robot_position=True, show_images=True)  # 随机位置 + 显示图像
     
     try:
         # 重置环境并获取初始观测

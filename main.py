@@ -84,9 +84,9 @@ def main(args):
     if args.sim:
         from mujoco_env import MujocoEnv
         if args.teleop:
-            env = MujocoEnv(show_images=True)
+            env = MujocoEnv(show_images=True, randomize_robot_position=args.random)
         else:
-            env = MujocoEnv()
+            env = MujocoEnv(randomize_robot_position=args.random)
     else:
         from real_env import RealEnv
         env = RealEnv()
@@ -106,8 +106,9 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--sim', action='store_true')
-    parser.add_argument('--teleop', action='store_true')
-    parser.add_argument('--save', action='store_true')
-    parser.add_argument('--output-dir', default='data/demos')
+    parser.add_argument('--sim', action='store_true', help='使用仿真环境')
+    parser.add_argument('--teleop', action='store_true', help='启用遥操作模式')
+    parser.add_argument('--save', action='store_true', help='保存演示数据')
+    parser.add_argument('--random', action='store_true', help='随机化机器人初始位置 (默认使用XML中的固定位置)')
+    parser.add_argument('--output-dir', default='data/0714', help='演示数据输出目录')
     main(parser.parse_args())

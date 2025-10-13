@@ -45,8 +45,8 @@ class EpisodeWriter:
         self.flush_thread = None
 
     def step(self, obs, action):
-        if len(self.observations) == 0 and not np.allclose(obs['base_pose'], 0.0, atol=0.01):
-            raise Exception('Initial base pose should be zero. Did the base get pushed?')
+        # if len(self.observations) == 0 and not np.allclose(obs['base_pose'], 0.0, atol=0.01):
+        #     raise Exception('Initial base pose should be zero. Did the base get pushed?')
         self.timestamps.append(time.time())
         self.observations.append(obs)
         self.actions.append(action)
