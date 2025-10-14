@@ -11,8 +11,9 @@
     3. 世界体布局：定义了物体的位置、大小、质量、摩擦力等物理属性。
 -->
 
-<mujoco model="obacbot scene">
-  <include file="bobacbot.xml"/>
+<mujoco model="Bobacbot scene">
+  <!-- <include file="bobacbot.xml"/>  -->
+  <include file="bobacbot_v2.xml"/>
   <include file="textures/textures.xml"/>
   <include file="assets/objects/basic/table_left.xml"/>
   <include file="assets/objects/basic/table_right.xml"/>

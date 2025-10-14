@@ -6,6 +6,20 @@
             <geom size="0.0135 0.29" pos="-0.875 0.375 -0.29" type="cylinder" rgba="0 0 0 1"/>  <!-- 右前腿 -->
             <geom size="0.0135 0.29" pos="0.875 -0.375 -0.29" type="cylinder" rgba="0 0 0 1"/>  <!-- 左后腿 -->
             <geom size="0.0135 0.29" pos="0.875 0.375 -0.29" type="cylinder" rgba="0 0 0 1"/>  <!-- 右后腿 -->
+            
+            <!-- 桌面上的长方形空盒子 -->
+            <body name="box_on_table" pos="-0.6 -0.2 0.02">
+                <!-- 盒子底面 -->
+                <geom name="box_bottom" size="0.15 0.1 0.005" pos="0 0 0" type="box" rgba="1 0 0 1" friction="0.3 0.005 0.0001"/>
+                <!-- 盒子前壁 -->
+                <geom name="box_front" size="0.15 0.005 0.03" pos="0 -0.095 0.025" type="box" rgba="1 0 0 1"/>
+                <!-- 盒子后壁 -->
+                <geom name="box_back" size="0.15 0.005 0.03" pos="0 0.095 0.025" type="box" rgba="1 0 0 1"/>
+                <!-- 盒子左壁 -->
+                <geom name="box_left" size="0.005 0.09 0.03" pos="-0.145 0 0.025" type="box" rgba="1 0 0 1"/>
+                <!-- 盒子右壁 -->
+                <geom name="box_right" size="0.005 0.09 0.03" pos="0.145 0 0.025" type="box" rgba="1 0 0 1"/>
+            </body>
         </body>
     </worldbody>
 </mujoco>

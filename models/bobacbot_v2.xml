@@ -115,7 +115,7 @@
   </asset>
 
   <worldbody>
-    <body name="base_link">
+    <body name="base_link" pos="0 0 0.035" euler="0 0 0">
       <!-- 设置总质量和惯性矩 -->
       <inertial pos="0 0 0.035" mass="60" diaginertia="1.0 1.0 1.0"/>
       

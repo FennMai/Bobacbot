@@ -30,7 +30,7 @@
   </asset>
 
   <worldbody>
-    <body name="base_link" quat="0 0 0 1">
+    <body name="base_link" pos="0 0 0" quat="0 0 0 1">
       <inertial pos="0.00059982 -9.2932E-05 0.043301" mass="0.61127" diaginertia="0.00080212 0.00080502 0.00066167"/>
       <geom class="visual" mesh="base_link"/>
       <geom class="collision" mesh="base_link"/>
@@ -64,7 +64,8 @@
                   <joint name="joint6" axis="0 0 1" range="-2.96555 2.96555"/>
                   <geom class="visual" mesh="Link6"/>
                   <geom class="collision" mesh="Link6"/>
-                  <site name="pinch_site" pos="0 0 -0.05" quat="0 1 0 0"/>
+                  <!-- <site name="pinch_site" pos="0 0 0" quat="0 0 0 1" type="sphere" size="0.01" rgba="1 0 0 1"/>  -->
+                  <site name="pinch_site" pos="0 0 0" quat="0 1 0 0" type="box" size="0.01 0.02 0.03" rgba="1 0 0 0.5"/>
                 </body>
               </body>
             </body>
@@ -85,6 +86,6 @@
 
   <keyframe>
     <key name="home" qpos="0 0 0 0 0 0" ctrl="0 0 0 0 0 0"/>
-    <key name="retract" qpos="0.0 0.949 -2.16 0.746 1.58 0.0" ctrl="0.0 0.649 -1.68 0.652 1.58 0.0"/>
+    <key name="retract" qpos="0.0 0.52 -1.2 0.34 1.57 -1.57" ctrl="0.0 0.52 -1.2 0.34 1.57 -1.57"/>
   </keyframe>
 </mujoco> 

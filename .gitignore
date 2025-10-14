@@ -26,3 +26,5 @@ data/
 training/
 
 models/checkpoints/
+
+video/
